@@ -1,0 +1,66 @@
+﻿@model Online_Selling_SIte.Models.Admin
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<style>
+
+    .col-md-4 {
+        width: 27.333333%;
+        margin-left: 37%;
+        border: 40% solid;
+        border: 19px solid #dcc2c2;
+        margin-top: 10%;
+    }
+</style>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-4">
+
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <h2 style="font-family:'Times New Roman', Times, serif;font-weight:bold;text-align-last:center">
+                        Admin Login
+                    </h2>
+                    <hr />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-success glyphicon-align-center" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+<link href="~/Content/plugins/toastr.js/toastr.css" rel="stylesheet" />
+<script src="~/Content/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<script src="~/Content/plugins/toastr.js/toastr.min.js"></script>
+@if (ViewBag.invalid == "Invalid Email & Password.!")
+{
+    <script>
+        $(document).ready(function () {
+            toastr.error("Invalid UserName & Password..!!");
+        });
+    </script>
+}

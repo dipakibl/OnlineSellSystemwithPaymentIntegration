@@ -1,0 +1,268 @@
+﻿@model IEnumerable<Online_Selling_SIte.Models.CommanCart>
+@{
+    @using Microsoft.AspNetCore.Http;
+    if (Context.Session.GetString("UserName") == null)
+    {
+        Context.Response.Redirect("/UserLogin/Index");
+    }
+    ViewData["Title"] = "MyOrders";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455A64;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 19.33%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+            color: #455A64 !important
+        }
+
+        #progressbar #step1:before {
+            content: "1";
+            color: #fff;
+            width: 29px;
+            margin-left: 15px !important;
+            padding-left: 11px !important
+        }
+
+        #progressbar #step2:before {
+            content: "2";
+            color: #fff;
+            width: 29px
+        }
+
+        #progressbar #step3:before {
+            content: "3";
+            color: #fff;
+            width: 29px;
+            margin-right: 15px !important;
+            padding-right: 11px !important
+        }
+
+        #progressbar #step4:before {
+            content: "4";
+            color: #fff;
+            width: 29px;
+            margin-right: 15px !important;
+            padding-right: 11px !important
+        }
+
+        #progressbar #step5:before {
+            content: "5";
+            color: #fff;
+            width: 29px;
+            margin-right: 15px !important;
+            padding-right: 11px !important
+        }
+
+        #progressbar li:before {
+            line-height: 29px;
+            display: block;
+            font-size: 12px;
+            background: #455A64;
+            border-radius: 50%;
+            margin: auto
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 121%;
+            height: 2px;
+            background: #455A64;
+            position: absolute;
+            left: 0%;
+            right: 0%;
+            top: 15px;
+            z-index: -1
+        }
+
+        #progressbar li:nth-child(2):after {
+            left: 50%
+        }
+
+        #progressbar li:nth-child(1):after {
+            left: 25%;
+            width: 121%
+        }
+
+        #progressbar li:nth-child(3):after {
+            left: 25% !important;
+            width: 121% !important
+        }
+
+        #progressbar li:nth-child(4):after {
+            left: 25% !important;
+            width: 121% !important
+        }
+
+        #progressbar li:nth-child(5):after {
+            left: 25% !important;
+            width: 50% !important
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #4bb8a9
+        }
+
+    .card {
+        z-index: 0
+    }
+</style>
+<div class="hero-wrap hero-bread" style="background-image: url('/Content/UserContent/images/bg_6.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-0 bread">My Order</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <tbody>
+                            @foreach (var item1 in ViewBag.order as List<Online_Selling_SIte.Models.Order>)
+                            {
+                                <tr>
+                                    @*<td class="product-remove"><a href="#" id="CancleOrder" title="Remove Order"><span class="ion-ios-close"></span></a></td>*@
+                                    <td>
+                                        <input type="hidden" id="oderid" value="@item1.Id" />
+                                        <input type="hidden" id="status" value="@item1.Status" />
+                                    </td>
+                                    <td colspan="5">
+                                        <span>
+                                            <b>Customer Name &nbsp;&nbsp;&nbsp;&nbsp; ::</b>
+                                            @Html.DisplayFor(modelItem => item1.Name)
+                                        </span>
+                                        <span>
+                                            <br />
+                                            <b> Customer Address ::</b>
+                                            @Html.DisplayFor(modelItem => item1.Address), @Html.DisplayFor(modelItem => item1.City)- @Html.DisplayFor(modelItem => item1.PinCode), @Html.DisplayFor(modelItem => item1.State)
+                                        </span><br />
+                                        <span>
+
+                                            <b> Order Date ::</b>
+                                            @Html.DisplayFor(modelItem => item1.CreateDate)
+                                        </span><br />
+                                        <span>
+                                            <b>Pay Amount ::</b>
+                                            @Html.DisplayFor(modelItem => item1.PayAmount)
+                                        </span><br />
+                                        <span>
+                                            <b>Payment Status ::</b>
+                                            <b style="color:green">  @Html.DisplayFor(modelItem => item1.PaymentStatus)</b>
+                                        </span><br />
+                                        <span>
+                                            <b>Payment TransactionID ::</b>
+                                            @Html.DisplayFor(modelItem => item1.Payment_TransactionId)
+                                        </span><br />
+                                        <span>
+                                            <b>View  Payment Receipt::</b>
+                                            <a href=@item1.ReceiptUrl target="_blank">Click Here</a>
+                                        </span><br />
+                                        <b>Tracker ::</b>
+
+                                        <div class="card col">
+                                            <ul id="progressbar">
+                                                @if (item1.Status == "InProgress")
+                                                {
+
+                                                    <li class="step1 active " id="step1">In Process</li>
+                                                }
+                                                else if (item1.Status == "Packing")
+                                                {
+                                                    <li class="step1 text-muted " id="step1">In Process</li>
+                                                    <li class="step2 active text-center" id="step2">PACKING</li>
+                                                }
+                                                else if (item1.Status == "Loading")
+                                                {
+                                                    <li class="step1 text-muted " id="step1">In Process</li>
+                                                    <li class="step2 text-muted text-center" id="step2">PACKING</li>
+                                                    <li class="step3 active text-right" id="step3">LOADING</li>
+                                                }
+                                                else if (item1.Status == "Shipping")
+                                                {
+                                                    <li class="step1 text-muted " id="step1">In Process</li>
+                                                    <li class="step2 text-muted text-center" id="step2">PACKING</li>
+                                                    <li class="step3 text-muted text-right" id="step3">LOADING</li>
+                                                    <li class="step4 active text-right" id="step4">SHIPPING</li>
+                                                }
+                                                else if (item1.Status == "Complete")
+                                                {
+                                                    <li class="step1 text-muted " id="step1">In Process</li>
+                                                    <li class="step2 text-muted text-center" id="step2">PACKING</li>
+                                                    <li class="step3 text-muted text-right" id="step3">LOADING</li>
+                                                    <li class="step4 text-muted text-right" id="step4">SHIPPING</li>
+                                                    <li class="step5 active text-right" id="step5">Complete</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                    
+                                
+                                        <tr class="text-center thead-primary">
+                                    <th>&nbsp;</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                               
+                                foreach (var item in Model)
+                                {
+                                    if (item1.Id == item.OrderId)
+                                    {
+                                        <tr class="text-center">
+
+
+                                            <td class="image-prod"><img src="~/ProductImages/@item.Image" class="img" /></td>
+
+                                            <td class="product-name">
+                                                <h3> @Html.DisplayFor(modelItem => item.Name)</h3>
+                                                <p>@Html.DisplayFor(modelItem => item.discription)</p>
+                                            </td>
+                                            <td class="price"><p>@Html.DisplayFor(modelItem => item.saleprice)</p></td>
+                                            <td class="quantity">
+                                                <div class="input-group mb-3">
+                                                    <input disabled="disabled" name="quantity" class=" form-control " value="@Html.DisplayFor(modelItem => item.Qnt)">
+                                                </div>
+                                            </td>
+
+                                            <td class="total"><p>@Html.DisplayFor(modelItem => item.total)</p></td>
+
+                                        </tr><!-- END TR-->
+                                    }
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+

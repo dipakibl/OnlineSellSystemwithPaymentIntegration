@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Online_Selling_SIte.Models.Product>
+
+@{
+    ViewData["Title"] = "ManageStock";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <style>
+        .form-controlqnt {
+            width: 25%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+    </style>
+@using (Html.BeginForm("ManageStock", "Product", FormMethod.Post))
+{
+    <section class="content">
+        <form method="post">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Manage Stock</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ProductName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Category)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Qnt)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Price)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Total)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Saleprice)
+                                        </th>
+
+                                       <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Category)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Qnt)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Total)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Saleprice)
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" value="@item.Id" name="Id" />
+                                        </td>
+                                    </tr>
+                                    }
+                                    <tr>
+                                        <td colspan="6">
+                                            <input type="number" class="form-controlqnt"  name="qnt" placeholder="Quntity" />
+
+                                            <input type="Text" class="form-controlqnt"  name="SalePrice" placeholder="SalePrice" />
+
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+}

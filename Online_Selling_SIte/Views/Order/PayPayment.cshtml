@@ -1,0 +1,147 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<Online_Selling_SIte.Models.StripeSettings> Stripe
+@model Online_Selling_SIte.Models.payModel
+@{
+    Layout = null;
+}
+<style>
+    body { margin-top:20px; }
+.panel-title {display: inline;font-weight: bold;}
+.pl-ziro { padding-left: 0px; }
+</style>
+<title>PayPayment</title>
+@*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <div class="container">
+        <div class="row">
+            <script src="https://js.stripe.com/v3/"></script>
+            <form asp-action="PayPayment" asp-controller="Order" method="post" id="Payment-form">
+                <div class="col-xs-12 col-md-4" style="margin-left:35%;margin-top:10%">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Payment Details
+                            </h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <img class="img-responsive pull-left" src="http://i76.imgup.net/accepted_c22e0.png">
+                                <br />
+                                <br />
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">
+                                    CARD NUMBER
+                                </label>
+                                <div class="input-group">
+                                    @*<input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number"
+                required autofocus />*@
+                                    <span id="card-number" class="form-control" placeholder="Valid Card Number">
+
+                                    </span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5 col-md-5 pull-left">
+                                    <div class="form-group">
+                                        <label for="expityMonth">
+                                            EXPIRY DATE
+                                        </label>
+                                        <span id="card-exp" class="form-control">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-5 col-md-5 pull-right">
+                                    <div class="form-group">
+                                        <label for="cvCode">
+                                            CVC CODE
+                                        </label>
+                                        <span id="card-cvc"  class="form-control">
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active">
+                            <a href="#"><span class="badge pull-right" style="font-size: 18px;">@Model.Total/-</span> Final Payment</a>
+                        </li>
+                    </ul>
+                    <br />
+                    <input class="StripeToken" asp-for="Token" type="text" hidden />
+                    <input asp-for="Total" type="text" value="@Model.Total" hidden />
+                    <input asp-for="Id" type="text" value="@Model.Id" hidden />
+                    <button type="submit" class="btn btn-success btn-lg btn-block" role="button">Pay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<link href="~/Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<script src="~/Content/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var stripe = Stripe("@Stripe.Value.Publishablekey");
+
+        var elements = stripe.elements();
+
+        var style = {
+            base: {
+                'lineHeight': '1.35',
+                'fontSize': '1.11rem',
+                'color': '#495057',
+                'margin-left': '450px',
+                'fontFamily': 'apple-system, BlinkMacSystemFont "Segon UI", Roboto,"Helvetica Neue", Arial, sans-serif'
+            }
+        };
+        // card number
+        var card = elements.create('cardNumber', {
+            'placeholder': '',
+            'style': style
+        });
+        card.mount('#card-number');
+
+        //CVC
+        var cvc = elements.create('cardCvc', {
+            'placeholder': '',
+            'style': style
+        });
+        cvc.mount('#card-cvc');
+
+        //Card expiry
+
+        var exp = elements.create('cardExpiry', {
+            'placeholder': '',
+            'style': style
+        });
+        exp.mount('#card-exp');
+        //Handle form Submission
+
+        var form = document.getElementById('Payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    stripeTokenHandler(result.token);
+                    console.log(result.token);
+                }
+            });
+        });
+        //Submit the form with the token ID.
+
+        function stripeTokenHandler(token) {
+            $(".StripeToken").val(token.id);
+            form.submit();
+        }
+
+
+    })
+</script>
+

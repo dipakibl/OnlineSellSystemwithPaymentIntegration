@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Online_Selling_SIte.Models.CommanCart>
+
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("Order", "Orders", FormMethod.Post))
+{
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Orders</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+
+                        <table id="example2" class="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">
+                                        <select class="form-control col-4" name="status">
+                                            <option></option>
+                                            <option value="Packing">Packing</option>
+                                            <option value="Loading">Loading</option>
+                                            <option value="Shipping">Shipping</option>
+                                            <option value="Complete">Complete</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </td>
+                                </tr>
+
+                                @foreach (var item1 in ViewBag.Orders as List<Online_Selling_SIte.Models.Order>)
+                                {
+                                    if (item1.Status != "Complete")
+                                    {
+
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <span>
+                                                    <b>Customer Name &nbsp;&nbsp;&nbsp;&nbsp; ::</b>
+                                                    @Html.DisplayFor(modelItem => item1.Name)
+                                                </span>
+                                                <span>
+                                                    <br />
+                                                    <b> Customer Address ::</b>
+                                                    @Html.DisplayFor(modelItem => item1.Address), @Html.DisplayFor(modelItem => item1.City)- @Html.DisplayFor(modelItem => item1.PinCode), @Html.DisplayFor(modelItem => item1.State)
+                                                </span><br />
+                                                <span>
+
+                                                    <b> Order Date ::</b>
+                                                    @Html.DisplayFor(modelItem => item1.CreateDate)
+                                                </span><br />
+                                                <span>
+
+                                                    <b>  Status ::</b>
+                                                    @Html.DisplayFor(modelItem => item1.Status)
+                                                </span><br />
+
+                                            </td>
+                                            <td colspan="2">
+                                                <span>
+
+                                                    <b>Payment  Status ::</b>
+                                                    <b style="color:green"> @Html.DisplayFor(modelItem => item1.PaymentStatus)</b>
+                                                </span><br />
+                                                <span>
+
+                                                    <b>PayAmount ::</b>
+                                                    <b>@Html.DisplayFor(modelItem => item1.PayAmount)/-</b>
+                                                </span><br />
+                                                <span>
+
+                                                    <b>Payment TransactionId ::</b>
+                                                    @Html.DisplayFor(modelItem => item1.Payment_TransactionId)
+                                                </span>
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Qnt</th>
+                                            <th> Price</th>
+                                            <th>Total </th>
+                                        </tr>
+                                        foreach (var item in Model)
+                                        {
+                                            if (item1.Id == item.OrderId)
+                                            {
+
+
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Qnt)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.saleprice)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.total)
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        }
+                                        <tr>
+                                            <td colspan="3">
+                                                Grand Total
+                                            </td>
+                                            <td> <b><u>@Html.DisplayFor(modelItem => item1.PayAmount)</u></b> </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+
+                                                <input type="checkbox" value="@item1.Id" name="orderid" />
+                                            </td>
+                                            <td colspan="2">
+
+                                                @*<a href="~/MyAdmin/Admin/Orderss/@item1.Order_Id" class="btn btn-primary">Update Status</a>*@
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+}

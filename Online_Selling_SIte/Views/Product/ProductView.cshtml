@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Online_Selling_SIte.Models.Product>
+
+@{
+    ViewData["Title"] = "ProductView";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"><b>Products</b></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ProductName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Category)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Qnt)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Price)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Saleprice)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Image)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UploadDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsActive)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Discription)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Qnt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Saleprice)
+                                </td>
+                                <td>
+                                    <img src="~/ProductImages/@item.Image" style="height:101px; vertical-align:bottom" />
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UploadDate)
+                                </td>
+                                <td>
+                                    <span>@item.IsActive</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Discription)
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,118 @@
+﻿@model Online_Selling_SIte.Models.Product
+@{
+    
+    ViewData["Title"] = "AddToCart";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<script src="~/Content/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+
+@using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
+{
+    <div class="hero-wrap hero-bread">
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-9 ftco-animate text-center">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Product</a></span> <span>Product Single</span></p>
+                    <h1 class="mb-0 bread">Product Single</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 ftco-animate">
+                    <a href="~/ProductImages/@Html.DisplayFor(model=>model.Image)" class="image-popup"><img src="~/ProductImages/@Html.DisplayFor(model=>model.Image)" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                    <h3>@Html.DisplayFor(model => model.ProductName)</h3>
+
+                    <p class="price"><span>@Html.DisplayFor(model => model.Saleprice)</span></p>
+                    <p>
+                        @Html.DisplayFor(model => model.Discription)
+                    </p>
+                    <div class="row mt-4">
+                        <div class="w-100"></div>
+                        <div class="input-group col-md-6 d-flex mb-3">
+                            <span class="input-group-btn mr-2">
+                                <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                                    <i class="ion-ios-remove"></i>
+                                </button>
+                            </span>
+                            <input type="hidden" id="qnt" value="@Html.DisplayFor(model=>model.Qnt)" />
+                            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="@Html.DisplayFor(model=>model.Qnt)">
+                            <input type="hidden" id="productid" name="Product_Id" value="@Html.DisplayFor(model=>model.Id)" />
+                            <span class="input-group-btn ml-2">
+                                <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                                    <i class="ion-ios-add"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-12">
+                            <p style="color: #000;">@Html.DisplayFor(model => model.Qnt) piece available</p>
+                        </div>
+                    </div>
+                    <input type="submit" value="Add To Cart" class="btn btn-black py-3 px-5">
+
+                    @*<p><a href="/UserPanel/AddToCart?Product_Id=@item.Product_Id" class="btn btn-black py-3 px-5">Add to Cart</a></p>*@
+                </div>
+
+
+                <script>
+                    $(document).ready(function () {
+                        var quantitiy = 0;
+                        $('.quantity-right-plus').click(function (e) {
+
+                            // Stop acting like a button
+                            e.preventDefault();
+                            // Get the field name
+                            var qnt = parseInt($('#qnt').val());
+                            var quantity = parseInt($('#quantity').val());
+
+                            // If is not undefined
+                            if (qnt > quantity) {
+                                $('#quantity').val(quantity + 1);
+                            }
+
+
+
+                            // Increment
+
+                        });
+
+                        $('.quantity-left-minus').click(function (e) {
+                            // Stop acting like a button
+                            e.preventDefault();
+                            // Get the field name
+                            var quantity = parseInt($('#quantity').val());
+
+                            // If is not undefined
+
+                            // Increment
+                            if (quantity > 0) {
+                                $('#quantity').val(quantity - 1);
+                            }
+                        });
+
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+}
+@if (ViewBag.Already == "Product Already Added in Cart.")
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.alert({
+                title: 'Alert!',
+                content: 'Product Already Added in Cart..!!',
+            });
+        })
+    </script>
+
+}
+
+
+

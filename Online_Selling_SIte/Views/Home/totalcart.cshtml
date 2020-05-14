@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Online_Selling_SIte.Models.CommanCart>
+
+@{
+    ViewData["Title"] = "totalcart";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h2>totalcart</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.productid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.discription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qnt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.saleprice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GrandTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.orderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pincode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.productid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qnt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.saleprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrandTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pincode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

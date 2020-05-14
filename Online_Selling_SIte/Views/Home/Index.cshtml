@@ -1,0 +1,20 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<Online_Selling_SIte.Models.StripeSettings> Stripe
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <form asp-action="Charge" asp-controller="Home" method="POST">
+        <article>
+            <label>Amount: 500.00</label>
+        </article>
+        <script src="//checkout.stripe.com/v2/checkout.js"
+                class="stripe-button"
+                data-key="@Stripe.Value.Publishablekey"
+                data-locale="auto"
+                data-description="Sample Charge"
+                data-amount="500">
+        </script>
+    </form>
+</div>
