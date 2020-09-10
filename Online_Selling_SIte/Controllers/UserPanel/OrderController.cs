@@ -75,7 +75,6 @@ namespace Online_Selling_SIte.Controllers.UserPanel
                     _cartRepo.RemoveCartProcess(item);
                 }
                 return RedirectToAction("PayPayment", new { OrderId = order.Id });
-
                 // bool result = _orderRepo.PlaceOrder(user);
             }
             catch (Exception)
@@ -148,7 +147,6 @@ namespace Online_Selling_SIte.Controllers.UserPanel
             ViewBag.url = url;
             return View();
         }
-
         public ActionResult MyOrders()
         {
             try
@@ -159,10 +157,8 @@ namespace Online_Selling_SIte.Controllers.UserPanel
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
-
     }
 }
